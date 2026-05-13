@@ -8,11 +8,12 @@ function App() {
     const userMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
+  };
     return (
       <div className="app">
         <h1>AI Assistant</h1>
         <div className="chat-window">
-          {messages.map((msg, i) => (
+          {messages.map((msg, index) => (
             <div key={index} className={`message ${msg.role}`}>
               <p>{msg.content}</p>
             </div>
@@ -23,11 +24,12 @@ function App() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            placeholder="Say Something . . ."
           />
           <button onClick={sendMessage}>Send</button>
         </div>
       </div>
-    )
+
+    );
   }
-}
+export default App;
