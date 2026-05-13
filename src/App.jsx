@@ -14,12 +14,12 @@ function App() {
     localStorage.setItem("userMemory", JSON.stringify(updated));
   };
   const sendMessage = async () => {
-    if (!input.trim()) return;
+   if (!input.trim()) return;
     const userMessage = { role: "user", content: input };
-    if (input.toLowerCase().includes("my name is")) {
-      const name = input.split("my name is")[1].trim();
-      saveToMemory("name", name);
-  }
+   // if (input.toLowerCase().includes("my name is")) {
+      //const name = input.split("my name is")[1].trim();
+      //saveToMemory("name", name);
+    //}
     setMessages((prev) => [...prev, userMessage]);
     const response = await fetch("http://localhost:11434/api/chat", {
       method: "POST",
@@ -35,6 +35,31 @@ function App() {
     const data = await response.json();
     const aiMessage = { role: "assistant", content: data.message.content };
     setMessages((prev) => [...prev, aiMessage]);
+    const memoryCheck = await fetch("http://localhost:11434/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama3.2",
+        messages: [{ role: "system", content: `You are an extraction data tool. Extractany personal facts about the user from the conversation. Respond with ONLY valid JSON object with separate keys like {"name": "John", "age": 30}, nothing else. If nothing worth saving, return {}.` }, 
+        {role: "user", content: input},
+        {role: "assistant", content: aiMessage.content}
+      ],
+        stream: false,
+      })
+    });
+
+    const memoryData = await memoryCheck.json();
+    console.log("memory extract:", memoryData.message.content);
+    try {
+      const extracted = JSON.parse(memoryData.message.content);
+      Object.entries(extracted).forEach(([key, value]) => {
+        if (value) {
+          saveToMemory(key, value);
+        }
+      });
+    } catch (e) {}
     setInput("");
 };
     return (
