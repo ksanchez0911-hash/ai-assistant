@@ -24,6 +24,7 @@ function App() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             placeholder="Say Something . . ."
           />
           <button onClick={sendMessage}>Send</button>
