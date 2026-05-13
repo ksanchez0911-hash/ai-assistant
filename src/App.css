@@ -76,3 +76,46 @@ button {
 button:hover {
   background-color: #00b8d9;
 }
+
+.main {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.memory-panel {
+  width: 200px;
+  background-color: #16213e;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+.memory-panel h2 {
+  color:#00d4ff;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+.memory-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+memory-key {
+  color: #00d4ff;
+  font-size: 12px;
+  text-transform:uppercase;
+}
+.memory-value {
+  color: #ffffff;
+  font-size: 14px;
+}

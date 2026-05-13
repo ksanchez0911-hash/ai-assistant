@@ -24,8 +24,9 @@ function App() {
     setInput("");
 };
     return (
-      <div className="app">
-        <h1>AI Assistant</h1>
+    <div className="app">
+      <h1>HealthCare Companion</h1>
+      <div className="main">
         <div className="chat-window">
           {messages.map((msg, index) => (
             <div key={index} className={`message ${msg.role}`}>
@@ -33,18 +34,31 @@ function App() {
             </div>
           ))}
         </div>
-        <div className="input-area">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            placeholder="Say Something . . ."
-          />
-          <button onClick={sendMessage}>Send</button>
+        <div className="memory-panel">
+          <h2>What I Know</h2>
+          {Object.keys(memory).length === 0 ? (
+            <p>Nothing saved yet.</p>
+          ) : (
+            Object.entries(memory).map(([key, value]) => (
+              <div key={key} className="memory-item">
+                <span className="memory-key">{key}:</span>
+                <span className="memory-value">{value}</span>
+              </div>
+            ))
+          )}
         </div>
       </div>
-
-    );
-  }
+      <div className="input-area">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          placeholder="Say Something . . ."
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
+    </div>
+  );
+}
 export default App;
