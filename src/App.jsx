@@ -21,11 +21,25 @@ function App() {
       saveToMemory("name", name);
   }
     setMessages((prev) => [...prev, userMessage]);
+    const response = await fetch("http://localhost:11434/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama3.2",
+        messages: [...messages, userMessage],
+        stream: false,
+      })
+    });
+    const data = await response.json();
+    const aiMessage = { role: "assistant", content: data.message.content };
+    setMessages((prev) => [...prev, aiMessage]);
     setInput("");
 };
     return (
     <div className="app">
-      <h1>HealthCare Companion</h1>
+      <h1>My Assistant</h1>
       <div className="main">
         <div className="chat-window">
           {messages.map((msg, index) => (
