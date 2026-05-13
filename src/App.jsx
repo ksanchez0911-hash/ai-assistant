@@ -28,7 +28,7 @@ function App() {
       },
       body: JSON.stringify({
         model: "llama3.2",
-        messages: [...messages, userMessage],
+        messages: [{ role: "system", content: `Your name is Lumin. You speak naturally like a real person, not a robot. Keep responses conversational and relaxed. You tell users the reality and not what they want to hear. You know the following about the user: ${JSON.stringify(memory)}` }, ...messages, userMessage],
         stream: false,
       })
     });
@@ -39,7 +39,7 @@ function App() {
 };
     return (
     <div className="app">
-      <h1>My Assistant</h1>
+      <h1>Lumin</h1>
       <div className="main">
         <div className="chat-window">
           {messages.map((msg, index) => (
@@ -68,7 +68,7 @@ function App() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder="Say Something . . ."
+          placeholder="What can I help you with?"
         />
         <button onClick={sendMessage}>Send</button>
       </div>
